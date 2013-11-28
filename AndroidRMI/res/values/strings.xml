@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidRMI</string>
+    <string name="action_settings">Settings</string>
+    <string name="speedResult">KB/sec</string>
+    <string name="test">Speed</string>
+    <string name="batteryText">100%</string>
+    <string name="rmiText">3.14</string>
+    <string name="localText">3.14</string>
+    <string name="default_diff">10000</string>
+    <string name="enter_diff">Enter difficulty:</string>
+    <string name="battery">Battery</string>
+    <string name="title_activity_img">ImgActivity</string>
+    <string name="pi">3.14</string>
+    <string name="testRMI">Remote</string>
+    <string name="testLocal">Local</string>
+    <string name="enter_int">Enter an integer:</string>
+    <string name="Compute">Compute PI</string>
+    <string name="textTime">Run time</string>
+    <string name="textviewTime">0</string>
+    <string name="specify">input an integer</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="allTest">Test</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="show">Show</string>
+
+</resources>
