@@ -18,13 +18,21 @@ import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
 import edu.vanderbilt.cs390.androidrmi.db.TestData;
-import edu.vanderbilt.cs390.androidrmi.db.TestDataAdapter;
+import edu.vanderbilt.cs390.androidrmi.db.TestDataHelper;
 import edu.vanderbilt.cs390.androidrmi.db.TestSQLiteHelper;
 import edu.vanderbilt.cs390.androidrmi.util.Utils;
 
+/**
+ * Graph activity to show analysis graph
+ * 
+ * @author Li
+ * 
+ */
 public class GraphActivity extends BaseActivity {
 	private LinearLayout layout;
 	private GraphView graphView_;
+	private GraphViewSeries seriesLocal;
+	private GraphViewSeries seriesRemote;
 	private EditText editDiff_;
 	private int diff_;
 	private final static String TAG = "GraphActivity";
@@ -36,14 +44,23 @@ public class GraphActivity extends BaseActivity {
 		setContentView(R.layout.activity_graph);
 		layout = (LinearLayout) findViewById(R.id.linearlayout);
 		editDiff_ = (EditText) findViewById(R.id.editDiff);
-		graphView_ = new LineGraphView(this, "GraphViewDemo");
 	}
 
+	/**
+	 * it will be called when show button is clicked
+	 * 
+	 * @param v
+	 */
 	public void runShowGraph(View v) {
 		diff_ = Utils.checkText(editDiff_);
+		Log.d(TAG, "diff " + diff_);
 		if (Utils.validIndex(diff_)) {
-			addGraph(1, Color.CYAN);
-			addGraph(0, Color.BLUE);
+			if (graphView_ != null) {
+				layout.removeView(graphView_);
+			}
+			graphView_ = new LineGraphView(this, "Difficulty = " + diff_);
+			addGraph(1, Color.GREEN, seriesLocal);
+			addGraph(0, Color.BLUE, seriesRemote);
 			showGraph();
 		} else {
 			Log.e(TAG, "input error");
@@ -53,8 +70,15 @@ public class GraphActivity extends BaseActivity {
 
 	}
 
-	public void addGraph(int isLocal, int color) {
-		List<TestData> list = TestDataAdapter.getDatasByQuery(
+	/**
+	 * add the x and y in the graph
+	 * 
+	 * @param isLocal
+	 * @param color
+	 * @param series
+	 */
+	public void addGraph(int isLocal, int color, GraphViewSeries series) {
+		List<TestData> list = TestDataHelper.getDatasByQuery(
 				TestSQLiteHelper.COLUMN_LOCAL + " = " + isLocal + " AND "
 						+ TestSQLiteHelper.COLUMN_DIFF + "=" + diff_,
 				dbHelper_, TestSQLiteHelper.COLUMN_SPEED);
@@ -71,19 +95,21 @@ public class GraphActivity extends BaseActivity {
 			TestData d = list.get(i);
 			data[i] = new GraphViewData(d.getSpeed(), d.getTime());
 		}
-		GraphViewSeries series = new GraphViewSeries(isLocal == 1 ? "Local"
-				: "Remote", null, data);
+		series = new GraphViewSeries(isLocal == 1 ? "Local" : "Remote", null,
+				data);
 		series.getStyle().color = color;
 		graphView_.addSeries(series);
 		Log.d(TAG, "add graph " + isLocal);
 	}
 
+	/**
+	 * show graph on layout
+	 */
 	public void showGraph() {
 		// graphView.setViewPort(0, 10);
 		graphView_.setScalable(true);
-		// optional - legend
 		graphView_.setShowLegend(true);
-		graphView_.getGraphViewStyle().setGridColor(Color.GREEN);
+		graphView_.getGraphViewStyle().setGridColor(Color.GRAY);
 		graphView_.getGraphViewStyle().setHorizontalLabelsColor(Color.RED);
 		graphView_.getGraphViewStyle().setVerticalLabelsColor(Color.RED);
 		layout.addView(graphView_);

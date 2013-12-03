@@ -4,6 +4,12 @@ import edu.vanderbilt.cs390.androidrmi.db.TestSQLiteHelper;
 import android.app.Activity;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Base activity for sqliter helper
+ * 
+ * @author Li
+ * 
+ */
 public class BaseActivity extends Activity {
 	protected static SQLiteOpenHelper dbHelper_;
 

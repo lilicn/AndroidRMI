@@ -10,6 +10,7 @@ import lipermi.handler.CallHandler;
 import lipermi.net.Client;
 import edu.vanderbilt.cs390.rmi.Compute;
 import edu.vanderbilt.cs390.rmi.ComputeImp;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -18,10 +19,18 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.EditText;
 
+/**
+ * Utility varibles and methods
+ * 
+ * @author Li
+ * 
+ */
 public class Utils {
-	public final static String remoteHost = "host ip for RMIServer";
+	public final static String remoteHost = "10.67.122.98";
+	// public final static String remoteHost = "192.168.1.104";
 	public final static int portWasBinded = 4455;
 	private final static String TAG = "Utils";
+	public final static String URL = "androidnetworktester.googlecode.com";
 
 	/**
 	 * get string speed from double number
@@ -89,10 +98,22 @@ public class Utils {
 		return ((float) level / (float) scale) * 100.0f;
 	}
 
+	/**
+	 * call local compute function
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public static String local(Integer param) {
 		return new ComputeImp().getPI(param);
 	}
 
+	/**
+	 * call remote compute function
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public static String remote(Integer param) {
 		CallHandler callHandler = new CallHandler();
 		try {
@@ -107,13 +128,43 @@ public class Utils {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * check edittext is not null
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static int checkText(EditText text) {
 		String temp = text.getText().toString();
 		return temp.equals("") ? 0 : Integer.parseInt(temp);
 	}
 
+	/**
+	 * check edittext > 0
+	 * 
+	 * @param ind
+	 * @return
+	 */
 	public static boolean validIndex(int ind) {
 		return ind > 0 ? true : false;
+	}
+
+	/**
+	 * setProgressVisible method will set the progress dialog visible and
+	 * initialize the title and message.
+	 * 
+	 * @param progress
+	 *            Progress dialog in UI thread
+	 */
+	public static void setProgressVisible(ProgressDialog progress, String msg,
+			String title) {
+		// Set progressdialog title
+		progress.setTitle(title);
+		// Set progressdialog message
+		progress.setMessage(msg);
+		progress.setIndeterminate(false);
+		// Show progressdialog
+		progress.show();
 	}
 }

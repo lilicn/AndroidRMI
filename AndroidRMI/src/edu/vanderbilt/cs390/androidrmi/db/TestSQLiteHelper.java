@@ -5,6 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * sqlite helper for database
+ * 
+ * @author Li
+ * 
+ */
 public class TestSQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "datas.db";
 	private static final int DATABASE_VERSION = 1;
@@ -20,7 +26,8 @@ public class TestSQLiteHelper extends SQLiteOpenHelper {
 			+ " (" + COLUMN_ID + " INTEGER primary key autoincrement, "
 			+ COLUMN_SPEED + " REAL not null, " + COLUMN_BATTERY
 			+ " REAL not null, " + COLUMN_DIFF + " REAL not null, "
-			+ COLUMN_TIME + " REAL not null," + COLUMN_LOCAL + " INTEGER not null);";
+			+ COLUMN_TIME + " REAL not null," + COLUMN_LOCAL
+			+ " INTEGER not null);";
 
 	public TestSQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

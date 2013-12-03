@@ -6,6 +6,12 @@ import lipermi.exception.LipeRMIException;
 import lipermi.handler.CallHandler;
 import lipermi.net.Server;
 
+/**
+ * RMIServer main method
+ * 
+ * @author Li
+ * 
+ */
 public class TestMain {
 
 	public static void main(String[] args) throws IOException, LipeRMIException {

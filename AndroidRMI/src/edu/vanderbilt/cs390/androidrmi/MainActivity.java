@@ -1,6 +1,7 @@
 package edu.vanderbilt.cs390.androidrmi;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,12 @@ import edu.vanderbilt.cs390.androidrmi.asynctask.ComputeAsyncTask;
 import edu.vanderbilt.cs390.androidrmi.asynctask.NetworkAsyncTask;
 import edu.vanderbilt.cs390.androidrmi.util.Utils;
 
+/**
+ * Main activity for all kinds of tests
+ * 
+ * @author Li
+ * 
+ */
 public class MainActivity extends BaseActivity {
 	private TextView speedText_;
 	private TextView batteryText_;
@@ -25,8 +32,14 @@ public class MainActivity extends BaseActivity {
 	private TextView localText_;
 	private TextView timeText_;
 	private Context ctx_;
-	private final static String URL = "androidnetworktester.googlecode.com";
-	private final static String TAG = "MainActivity";
+	private final String TAG = "MainActivity";
+	private ProgressDialog progress_;
+	// progress title
+	private final String TESTSPEED = "test speed";
+	private final String TESTBATTERY = "Test battery status";
+	private final String TESTREMOTE = "Test remote function";
+	private final String TESTLOCAL = "Test local function";
+	private final String TESTALL = "Test all";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +51,8 @@ public class MainActivity extends BaseActivity {
 		localText_ = (TextView) findViewById(R.id.textviewLocal);
 		timeText_ = (TextView) findViewById(R.id.textviewTime);
 		ctx_ = MainActivity.this;
+		progress_ = new ProgressDialog(this);
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,25 +79,55 @@ public class MainActivity extends BaseActivity {
 	 * @param v
 	 */
 	public void runTestSpeed(View v) {
-		new NetworkAsyncTask(speedText_).execute(URL);
+		Utils.setProgressVisible(progress_, TESTSPEED, TESTSPEED);
+		new NetworkAsyncTask(speedText_, progress_).execute(Utils.URL);
 	}
 
+	/**
+	 * test current battery status when batterystatus button is clicked
+	 * 
+	 * @param v
+	 */
 	public void runBatteryStatus(View v) {
+		Utils.setProgressVisible(progress_, TESTBATTERY, TESTBATTERY);
 		batteryText_.setText(Utils.getBatteryLevel(this) + "%");
+		progress_.dismiss();
 	}
 
+	/**
+	 * test remote function when remote button is clicked
+	 * 
+	 * @param v
+	 */
 	public void runRemote(View v) {
+		Utils.setProgressVisible(progress_, TESTREMOTE, TESTREMOTE);
 		showDialog(true, rmiText_, timeText_, false);
 	}
 
+	/**
+	 * test local function when local button is clicked
+	 * 
+	 * @param v
+	 */
 	public void runLocal(View v) {
+		Utils.setProgressVisible(progress_, TESTLOCAL, TESTLOCAL);
 		showDialog(false, localText_, timeText_, false);
 	}
 
+	/**
+	 * run all tests when test button is clicked
+	 * 
+	 * @param v
+	 */
 	public void runAllTest(View v) {
-		showDialog(true,null,null,true);
+		Utils.setProgressVisible(progress_, TESTALL, TESTALL);
+		showDialog(true, null, null, true);
 	}
 
+	/**
+	 * show the graph about the relationship between network speed and run time
+	 * when menu item is clicked
+	 */
 	public void runShowGraph() {
 		Intent intent = new Intent(this, GraphActivity.class);
 		startActivity(intent);
@@ -98,9 +141,8 @@ public class MainActivity extends BaseActivity {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.dialog);
 		dialog.setTitle("Specify an integer");
-		final EditText specify = (EditText) dialog.findViewById(R.id.specify);
-
 		Button send = (Button) dialog.findViewById(R.id.sendButton);
+		final EditText specify = (EditText) dialog.findViewById(R.id.specify);
 		send.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -110,21 +152,21 @@ public class MainActivity extends BaseActivity {
 						public void run() {
 							Log.d(TAG, "ready to run: " + result);
 							if (isAllTest) {
-								Log.d(TAG,"all test");
-								new AllTestAsyncTask(ctx_,dbHelper_).execute(result);
-							} else {
-								new ComputeAsyncTask(textV, timeV, isRemote)
+								Log.d(TAG, "all test");
+								new AllTestAsyncTask(ctx_, dbHelper_, progress_)
 										.execute(result);
+							} else {
+								new ComputeAsyncTask(textV, timeV, isRemote,
+										progress_).execute(result);
 							}
-
 						}
-
 					});
 					dialog.dismiss();
 				} else {
 					Log.e(TAG, "input error");
-					Toast.makeText(MainActivity.this, "Please input an integer",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(MainActivity.this,
+							"Please input an integer", Toast.LENGTH_LONG)
+							.show();
 				}
 			}
 		});
@@ -134,6 +176,7 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
+				progress_.dismiss();
 			}
 		});
 		dialog.show();

@@ -1,5 +1,10 @@
 package edu.vanderbilt.cs390.androidrmi.db;
 
+/**
+ * Data
+ * @author Li
+ *
+ */
 public class TestData {
 	private long id_;
 	private double speed_;
