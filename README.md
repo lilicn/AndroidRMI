@@ -16,9 +16,7 @@ How to run
 Demo
 ------
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/1.png)
-
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/2.png)
 
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/3.png)
-
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/4.png)
