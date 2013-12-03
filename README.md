@@ -15,8 +15,18 @@ How to run
 
 Demo
 ------
+- Main activity to test:
+
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/1.png)
+
+- Input difficulty for computer:
+
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/2.png)
 
+- Get back result as toast:
+
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/3.png)
+
+- Graph activity to show network speed vs run time for both local and remotr function:
+- 
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/4.png)
