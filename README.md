@@ -28,5 +28,5 @@ Demo
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/3.png)
 
 - Graph activity to show network speed vs run time for both local and remotr function:
-- 
+
 ![Image Alt](https://github.com/skyw932/AndroidRMI/raw/master/Demo/4.png)
